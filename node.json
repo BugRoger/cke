@@ -1,0 +1,17 @@
+{
+  "ignition": {
+    "version": "2.0.0",
+    "config": {
+      "append": [
+        {
+          "source": "https://raw.githubusercontent.com/BugRoger/cke/master/basic.json",
+          "verification": {}
+        }
+      ]
+    }
+  },
+  "storage": {},
+  "systemd": {},
+  "networkd": {},
+  "passwd": {}
+}

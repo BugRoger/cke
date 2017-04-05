@@ -1,4 +1,4 @@
 ignition:
   config:
     append:
-      - source: https://
+      - source: https://raw.githubusercontent.com/BugRoger/cke/master/basic.json

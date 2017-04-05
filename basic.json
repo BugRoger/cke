@@ -1,0 +1,43 @@
+{
+  "ignition": {
+    "version": "2.0.0",
+    "config": {}
+  },
+  "storage": {
+    "files": [
+      {
+        "filesystem": "root",
+        "path": "/etc/coreos/update.conf",
+        "contents": {
+          "source": "data:,%0AREBOOT_STRATEGY%3Dreboot",
+          "verification": {}
+        },
+        "mode": 420,
+        "user": {},
+        "group": {}
+      }
+    ]
+  },
+  "systemd": {
+    "units": [
+      {
+        "name": "ccloud-metadata.service",
+        "contents": "[Unit]\nDescription=Converged Cloud Metadata Agent\n\n[Service]\nType=oneshot\nExecStart=/usr/bin/coreos-metadata --provider=openstack-metadata --attributes=/run/metadata/coreos --ssh-keys=core --hostname=/etc/hostname\n"
+      },
+      {
+        "name": "ccloud-metadata-hostname.service",
+        "enable": true,
+        "contents": "[Unit]\nDescription=Workaround for coreos-metadata hostname bug\nRequires=ccloud-metadata.service\nAfter=ccloud-metadata.service\n\n[Service]\nType=oneshot\nEnvironmentFile=/run/metadata/coreos\nExecStart=/usr/bin/hostnamectl set-hostname ${COREOS_OPENSTACK_HOSTNAME}\n\n[Install]\nWantedBy=multi-user.target\n"
+      }
+    ]
+  },
+  "networkd": {},
+  "passwd": {
+    "users": [
+      {
+        "name": "core",
+        "passwordHash": "$1$j4sBU0k0$mLgiqlILFKg1sy8OPZQUd0"
+      }
+    ]
+  }
+}
